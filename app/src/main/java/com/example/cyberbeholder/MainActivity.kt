@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 
 class MainActivity : AppCompatActivity() {
     private lateinit var _fragment: MatchesFragment
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,11 +18,18 @@ class MainActivity : AppCompatActivity() {
 
 
         // creating fragment and adding it to fragments in the activity_main
-        _fragment = MatchesFragment()
-        val fm = supportFragmentManager
-        val tr = fm.beginTransaction()
-        tr.add(R.id.my_fragment_holder, _fragment)
-        tr.commitAllowingStateLoss()
+//        _fragment = MatchesFragment()
+//        val fm = supportFragmentManager
+//        val tr = fm.beginTransaction()
+//        tr.add(R.id.my_fragment_holder, _fragment)
+//        tr.commitAllowingStateLoss()
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        setupActionBarWithNavController(navController)
+
         //how to easy get viewmodel for fragment - https://developer.android.com/reference/androidx/lifecycle/ViewModel
 
 
@@ -32,15 +43,7 @@ class MainActivity : AppCompatActivity() {
         //clearBackStack()
     }
 
-    private fun clearBackStack() {
-        val manager = supportFragmentManager
-        if (manager.backStackEntryCount > 0) {
-            val first =
-                manager.getBackStackEntryAt(0)
-            manager.popBackStack(
-                first.id,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

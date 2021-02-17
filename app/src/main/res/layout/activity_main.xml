@@ -12,10 +12,18 @@
 <!--            android:layout_height="match_parent"-->
 <!--            android:text="@string/hello_blank_fragment" />-->
 
-        <FrameLayout
-            android:id="@+id/my_fragment_holder"
+<!--        <FrameLayout-->
+<!--            android:id="@+id/my_fragment_holder"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/main_nav_graph"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
