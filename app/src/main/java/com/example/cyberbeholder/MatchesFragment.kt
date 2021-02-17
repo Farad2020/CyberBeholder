@@ -47,8 +47,11 @@ class MatchesFragment : Fragment() {
     // Alerting
     lateinit var dialog: AlertDialog
 
-    // RXJava
-    private var compositeDisposable = CompositeDisposable()
+//    // RXJava
+//    private var compositeDisposable = CompositeDisposable()
+
+    //Retrofit
+    val retrofit = RetrofitClient.retrofitServices
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,20 +60,34 @@ class MatchesFragment : Fragment() {
         recyclerView = binding.matchesRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        dialog = SpotsDialog.Builder().setCancelable(true).setContext(requireContext()).build()
+        //dialog = SpotsDialog.Builder().setCancelable(true).setContext(requireContext()).build()
+        //getAllHeroes()
 
+        val repository = APIRepository(retrofit)
+        val modelViewFactory = MainHeroViewModelFactory(repository)
 
-        getAllHeroes()
+        viewModel = ViewModelProvider(this, modelViewFactory).get(MainHeroViewModel::class.java)
+
+        viewModel.getHeroes()
+
+        val heroesObserver = Observer<List<HeroModel>> { heroes ->
+            val myHeroList = ArrayList(heroes)
+            val myAdapter = MatchesRecyclerViewAdapter(myHeroList)
+            recyclerView.adapter = myAdapter
+        }
+
+        viewModel.heroes.observe(viewLifecycleOwner, heroesObserver)
+
         return binding.root
     }
 
     private fun getAllHeroes() {
-        val repository = APIRepository()
-
-        compositeDisposable.add(repository.getOWHeroes(APIConstants.TEST_TOKEN)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse))
+//        val repository = APIRepository(RetrofitClient.retrofitServices)
+//
+//        compositeDisposable.add(repository.getOWHeroes(APIConstants.TEST_TOKEN)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(this::handleResponse))
 
 //        compositeDisposable.add(repository.getOWHeroes(APIConstants.TEST_TOKEN)
 //                .subscribeOn(Schedulers.io())
@@ -80,9 +97,7 @@ class MatchesFragment : Fragment() {
 //
 //                    }
 //                }))
-
-        //instead of observable I used Call before
-
+//          instead of observable I used Call before
 //        val repository = APIRepository()
 //        val retrofit = RetrofitClient.retrofitServices
 //        val modelViewFactory = MainHeroViewModelFactory(repository)
@@ -108,15 +123,16 @@ class MatchesFragment : Fragment() {
 //        })
     }
 
-    private fun handleResponse(cryptoList: List<HeroModel>) {
-        val myHeroList = ArrayList(cryptoList)
+    fun handleResponse(heroList: List<HeroModel>) {
+        val myHeroList = ArrayList(heroList)
         val myAdapter = MatchesRecyclerViewAdapter(myHeroList)
         recyclerView.adapter = myAdapter
     }
 
     override fun onStop() {
         //clearing all disposables
-        compositeDisposable.clear()
+        //compositeDisposable.clear()
+        viewModel.disposeDisposables()
         super.onStop()
     }
 

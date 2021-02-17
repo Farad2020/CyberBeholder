@@ -1,15 +1,12 @@
 package com.example.cyberbeholder.retrofit
 
-import com.example.cyberbeholder.common.APIConstants
 import com.example.cyberbeholder.models.HeroModel
-import io.reactivex.Observable
-import retrofit2.Call
-import retrofit2.Response
+import io.reactivex.Single
 
-class APIRepository {
+class APIRepository(private val retrofitService: OWQueriesService): HeroRepositoryContract {
 
     //before it was  Call<MutableList<HeroModel>>
-    fun getOWHeroes(token: String): Observable<List<HeroModel>> {
-        return RetrofitClient.retrofitServices.getHeroList(token)
+    override fun getOWHeroes(token: String): Single<List<HeroModel>> {
+        return retrofitService.getHeroList(token)
     }
 }

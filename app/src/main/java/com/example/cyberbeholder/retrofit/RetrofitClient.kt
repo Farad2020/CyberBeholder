@@ -16,8 +16,8 @@ object RetrofitClient {
                 .build()
     }
 
-    val retrofitServices: RetrofitServices by lazy {
-        retrofit.create(RetrofitServices::class.java)
+    val retrofitServices: OWQueriesService by lazy {
+        retrofit.create(OWQueriesService::class.java)
     }
 
 //    var retrofit: Retrofit? = null
