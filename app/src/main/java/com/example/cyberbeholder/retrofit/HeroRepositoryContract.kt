@@ -6,4 +6,6 @@ import io.reactivex.Single
 interface HeroRepositoryContract {
 
     fun getOWHeroes(token: String): Single<List<HeroModel>>
+
+    fun getOWHeroById(token: String, id: Int): Single<HeroModel>
 }

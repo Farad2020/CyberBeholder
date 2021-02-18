@@ -6,5 +6,17 @@
     <fragment
         android:id="@+id/matchesFragment"
         android:name="com.example.cyberbeholder.MatchesFragment"
-        android:label="MatchesFragment" />
+        android:label="MatchesFragment" >
+        <action
+            android:id="@+id/action_matchesFragment_to_heroDetailsFragment"
+            app:destination="@id/heroDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/heroDetailsFragment"
+        android:name="com.example.cyberbeholder.HeroDetailsFragment"
+        android:label="HeroDetailsFragment" >
+        <argument
+            android:name="hero_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

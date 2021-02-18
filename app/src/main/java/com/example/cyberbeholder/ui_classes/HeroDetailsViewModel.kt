@@ -9,24 +9,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MainHeroViewModel(private val repository: HeroRepositoryContract): ViewModel() {
-    var heroes: MutableLiveData<List<HeroModel>> = MutableLiveData()
+class HeroDetailsViewModel(private val repository: HeroRepositoryContract, private val heroId: Int): ViewModel()  {
+    var hero: MutableLiveData<HeroModel> = MutableLiveData()
     private var compositeDisposable = CompositeDisposable()
 
-    //left from first v
-    fun getHeroes(){
-//        viewModelScope.launch {
-//            val response = repository.getOWHeroes(token)
-//            myResponse = response
-//        }
-//
-//        val repository = APIRepository(RetrofitClient.retrofitServices)
-
-        compositeDisposable.add(repository.getOWHeroes(APIConstants.TEST_TOKEN)
+    fun getHero(){
+        compositeDisposable.add(repository.getOWHeroById(APIConstants.TEST_TOKEN, heroId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{response->
-                heroes.value = response
+                hero.value = response
             }
         )
     }
@@ -34,6 +26,4 @@ class MainHeroViewModel(private val repository: HeroRepositoryContract): ViewMod
     fun disposeDisposables(){
         compositeDisposable.dispose()
     }
-
-
 }

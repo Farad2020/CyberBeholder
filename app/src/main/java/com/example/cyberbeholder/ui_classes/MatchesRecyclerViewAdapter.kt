@@ -5,8 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cyberbeholder.HeroDetailsFragment
+import com.example.cyberbeholder.MatchesFragmentDirections
 import com.example.cyberbeholder.R
+import com.example.cyberbeholder.databinding.FragmentHeroDetailsBinding
 import com.example.cyberbeholder.models.HeroModel
 import com.squareup.picasso.Picasso
 
@@ -44,6 +48,11 @@ class MatchesRecyclerViewAdapter (private val data_list: List<HeroModel>) :
         holder.heroNameTextView.text = myData.name
         holder.heroRoleTextView.text = myData.role
         Picasso.get().load(myData.portrait_url).into(holder.image)
+
+        holder.itemView.setOnClickListener{
+            val action = MatchesFragmentDirections.actionMatchesFragmentToHeroDetailsFragment(myData.id)
+            holder.itemView.findNavController().navigate(action)
+        }
     }
 }
 

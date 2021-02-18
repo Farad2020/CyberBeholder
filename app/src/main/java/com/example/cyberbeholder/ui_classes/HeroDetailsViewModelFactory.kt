@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.cyberbeholder.retrofit.HeroRepositoryContract
 
-class MainHeroViewModelFactory(private val repository: HeroRepositoryContract): ViewModelProvider.Factory {
-
+class HeroDetailsViewModelFactory(private val repository: HeroRepositoryContract, private val heroId: Int): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainHeroViewModel(repository) as T
+        return HeroDetailsViewModel(repository, heroId) as T
     }
 }

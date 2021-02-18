@@ -6,6 +6,7 @@ import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface OWQueriesService {
@@ -15,6 +16,13 @@ interface OWQueriesService {
     fun getHeroList(
             @Query("token") token: String
     ): Single<List<HeroModel>>
+
+
+    @GET("heroes/{id}")
+    fun getHeroById(
+        @Path("id") id: Int,
+        @Query("token") token: String
+    ): Single<HeroModel>
 
     //later on use @Query and @QueryMap to filter some stuff
 
