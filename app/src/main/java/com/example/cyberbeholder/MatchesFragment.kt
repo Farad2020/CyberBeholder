@@ -69,13 +69,6 @@ class MatchesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStop() {
-        //clearing all disposables
-        //compositeDisposable.clear()
-        viewModel.disposeDisposables()
-        super.onStop()
-    }
-
     private fun getAllHeroes() {
 //        val repository = APIRepository(RetrofitClient.retrofitServices)
 //

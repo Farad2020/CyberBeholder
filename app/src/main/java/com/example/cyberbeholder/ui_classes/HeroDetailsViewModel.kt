@@ -23,7 +23,8 @@ class HeroDetailsViewModel(private val repository: HeroRepositoryContract, priva
         )
     }
 
-    fun disposeDisposables(){
+    override fun onCleared() {
         compositeDisposable.dispose()
+        super.onCleared()
     }
 }

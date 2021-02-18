@@ -71,10 +71,4 @@ class HeroDetailsFragment : Fragment() {
 
         return binding.root
     }
-
-
-    override fun onStop() {
-        viewModel.disposeDisposables()
-        super.onStop()
-    }
 }
