@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.cyberbeholder.data.Injection
 import com.example.cyberbeholder.databinding.FragmentHeroDetailsBinding
 import com.example.cyberbeholder.databinding.FragmentMatchesBinding
 import com.example.cyberbeholder.models.HeroModel
@@ -14,6 +15,8 @@ import com.example.cyberbeholder.retrofit.HeroRepositoryContractImpl
 import com.example.cyberbeholder.retrofit.RetrofitClient
 import com.example.cyberbeholder.ui_classes.*
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.get
+import org.koin.java.KoinJavaComponent.get
 import kotlin.properties.Delegates
 
 class HeroDetailsFragment : Fragment() {
@@ -23,17 +26,8 @@ class HeroDetailsFragment : Fragment() {
     private var _binding: FragmentHeroDetailsBinding? = null
     private val binding get() = _binding!!
 
-    //Retrofit
-    private val retrofit = RetrofitClient.retrofitServices
-
-    //not sure whether the following the line is ok or not
-    private val repository = HeroRepositoryContractImpl(retrofit)
-
-    //model-view factory
-    private lateinit var modelViewFactory: HeroDetailsViewModelFactory
-
     //ViewModel
-    private lateinit var viewModel: HeroDetailsViewModel
+    private var viewModel = get<HeroDetailsViewModel>()
 
     //Hero id
     //cant lateinit primitive types(
@@ -43,11 +37,7 @@ class HeroDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let{
             heroId = it.getInt(HERO_ID_KEY)
-            modelViewFactory = HeroDetailsViewModelFactory(repository, heroId)
-            viewModel = ViewModelProvider(this, modelViewFactory).get(HeroDetailsViewModel::class.java)
-
-            // here is the question. Should I provide one time id in factory, or should I pass the var as an argument
-            viewModel.getHero()
+            viewModel.getHero(heroId)
 
         }
     }

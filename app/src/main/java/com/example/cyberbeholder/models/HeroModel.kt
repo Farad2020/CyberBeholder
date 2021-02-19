@@ -1,6 +1,11 @@
 package com.example.cyberbeholder.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "heroes_table")
 data class HeroModel(
+    @PrimaryKey
     val id: Int,
     val image_url: String,
     val name: String,

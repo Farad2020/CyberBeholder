@@ -15,7 +15,7 @@ import com.example.cyberbeholder.models.HeroModel
 import com.squareup.picasso.Picasso
 
 
-class MatchesRecyclerViewAdapter (private val data_list: List<HeroModel>) :
+class MatchesRecyclerViewAdapter (private val data_list: List<HeroModel>, private val onHeroItemInteraction: OnHeroItemInteraction) :
         RecyclerView.Adapter<MatchesRecyclerViewAdapter.MatchesViewHolder>(){
 
     class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,43 +49,9 @@ class MatchesRecyclerViewAdapter (private val data_list: List<HeroModel>) :
         holder.heroRoleTextView.text = myData.role
         Picasso.get().load(myData.portrait_url).into(holder.image)
 
+        //remove listener from here, and create interface that will manage this from fragment
         holder.itemView.setOnClickListener{
-            val action = MatchesFragmentDirections.actionMatchesFragmentToHeroDetailsFragment(myData.id)
-            holder.itemView.findNavController().navigate(action)
+            onHeroItemInteraction.onHeroInteraction(myData.id)
         }
     }
 }
-
-
-
-/*
-class MatchesRecyclerViewAdapter (private val data_list: List<TestDataClass>) :
-        RecyclerView.Adapter<MatchesRecyclerViewAdapter.MatchesViewHolder>(){
-
-    class MatchesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val matcheInfoTextView: TextView
-
-        init {
-            // Define click listener for the ViewHolder's View.
-            matcheInfoTextView = view.findViewById(R.id.match_info_text_view)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-                .inflate(R.layout.matches_recycler_view_item, parent, false)
-
-        return MatchesViewHolder(
-                inflater
-        )
-    }
-
-    override fun getItemCount() = data_list.count()
-
-    override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        val myData: TestDataClass = data_list[position]
-
-        holder.matcheInfoTextView.text = myData.dataStr
-    }
-}
-* */

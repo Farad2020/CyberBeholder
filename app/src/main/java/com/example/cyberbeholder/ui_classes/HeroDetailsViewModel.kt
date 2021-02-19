@@ -9,12 +9,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class HeroDetailsViewModel(private val repository: HeroRepositoryContract, private val heroId: Int): ViewModel()  {
+class HeroDetailsViewModel(private val repository: HeroRepositoryContract): ViewModel()  {
     var hero: MutableLiveData<HeroModel> = MutableLiveData()
     private var compositeDisposable = CompositeDisposable()
 
-    fun getHero(){
-        compositeDisposable.add(repository.getOWHeroById(APIConstants.TEST_TOKEN, heroId)
+    fun getHero(heroId: Int){
+        compositeDisposable.add(repository.getOWHeroByIdFromDB(heroId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{response->

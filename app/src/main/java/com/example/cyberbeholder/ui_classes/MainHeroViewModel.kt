@@ -15,14 +15,8 @@ class MainHeroViewModel(private val repository: HeroRepositoryContract): ViewMod
 
     //left from first v
     fun getHeroes(){
-//        viewModelScope.launch {
-//            val response = repository.getOWHeroes(token)
-//            myResponse = response
-//        }
-//
-//        val repository = APIRepository(RetrofitClient.retrofitServices)
 
-        compositeDisposable.add(repository.getOWHeroes(APIConstants.TEST_TOKEN)
+        compositeDisposable.add(repository.getOWHeroesFromDB()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{response->

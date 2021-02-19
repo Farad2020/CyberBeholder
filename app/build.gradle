@@ -57,6 +57,9 @@ dependencies {
     //Room DB
     implementation "androidx.room:room-runtime:2.2.6"
     kapt "androidx.room:room-compiler:2.2.6"
+    implementation "androidx.room:room-runtime:2.2.6"
+    // Room DB - Test helpers
+    implementation "androidx.room:room-rxjava2:2.2.6"
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -86,4 +89,16 @@ dependencies {
 
     //multidex
     implementation 'com.android.support:multidex:1.0.3' //enter the latest version
+
+    // Koin for Kotlin apps
+    implementation "org.koin:koin-android:${koin_version}"
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+//    implementation "org.koin:koin-android:$koin_version"
+//    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+
+    // Testing
+    testImplementation "org.koin:koin-test:$koin_version"
 }
